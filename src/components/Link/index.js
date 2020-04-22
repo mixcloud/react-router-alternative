@@ -127,6 +127,14 @@ class Link extends React.PureComponent {
         return !!match;
     };
 
+    shouldComponentUpdate(nextProps) {
+        const props = {...nextProps};
+        if (!props.children || !props.children.length) {
+            delete props.children;
+        }
+        return !deepEqual(this.props, nextProps);
+    }
+
     render() {
         const {
             history,
@@ -172,6 +180,14 @@ class LinkWithMiddleware extends React.PureComponent {
         (next, middleware) => props => middleware(props, next),
         props => <Link {...(props: any)} />
     );
+
+    shouldComponentUpdate(nextProps) {
+        const props = {...nextProps};
+        if (!props.children || !props.children.length) {
+            delete props.children;
+        }
+        return !deepEqual(this.props, nextProps);
+    }
 
     render() {
         return this.renderWithMiddleware(this.props);
